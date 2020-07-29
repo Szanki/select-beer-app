@@ -1,0 +1,36 @@
+@import "./variables";
+
+.product-card {
+  display: flex;
+  flex-direction: row;
+  min-height: 200px;
+  border: 1px solid black;
+  max-width: 500px;
+  min-height: 250px;
+  width: 100%;
+
+  &-image {
+    width: 100px;
+    padding: 10px;
+    flex-shrink: 0;
+    margin: 10px;
+  }
+
+  &-descriptiion {
+    & > p {
+      margin: 10px;
+    }
+  }
+
+  &-name {
+    font-size: map-get($font-size, big);
+    font-weight: map-get($font-weight, semi-bold);
+  }
+
+  &-about {
+    overflow: auto;
+    padding: 1px;
+    height: 200px;
+    min-width: 250px;
+  }
+}
