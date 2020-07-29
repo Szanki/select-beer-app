@@ -1,11 +1,9 @@
-import React from "react";
-
 export const productReducer = (state, action) => {
   switch (action.type) {
     case "FETCH_PRODUCTS":
       return {
         ...state,
-        listOfProducts: [...state.listOfProducts, action.payload],
+        listOfProducts: [...state.listOfProducts, ...action.payload],
       };
     case "ADD_FAVOURITE":
       return {

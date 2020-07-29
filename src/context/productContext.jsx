@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useReducer } from "react";
-import { productReducer } from "./reducer";
+import { productReducer } from "./reducer.js";
 import { baseApiUrl } from "../api/punkapi";
 
 const initialState = {
@@ -10,13 +10,14 @@ const initialState = {
 export const ProductContext = createContext(initialState);
 
 export const ProductContextProvider = ({ children }) => {
-  const { listOfProducts, listOFavouriteProducts } = useContext(ProductContext);
-
-  const [state, dispatch] = useReducer(productReducer, initialState);
+  const [{ listOfProducts, listOFavouriteProducts }, dispatch] = useReducer(
+    productReducer,
+    initialState
+  );
 
   const getProducts = async () => {
     const data = await (await fetch(baseApiUrl)).json();
-    console.log(data);
+    dispatch({ type: "FETCH_PRODUCTS", payload: data });
   };
 
   return (
