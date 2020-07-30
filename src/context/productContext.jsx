@@ -42,7 +42,7 @@ export const ProductContextProvider = ({ children }) => {
   }, [listOfProducts, listOFavouriteProducts, pageCounter]);
 
   const getProducts = async () => {
-    const urlParams = `${baseApiUrl}beers?page=${pageCounter}&per_page=80`;
+    const urlParams = `${baseApiUrl}beers?page=${pageCounter}&per_page=30`;
 
     try {
       dispatch({ type: "IS_LOADING" });

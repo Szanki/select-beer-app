@@ -27,7 +27,7 @@ export const BeerList = () => {
     : listOfProducts;
 
   const renderList = () => {
-    if (showFavouritePage && listOFavouriteProducts.length === 0 && !error) {
+    if (showFavouritePage && listOFavouriteProducts.length === 0) {
       return (
         <div className="empty-favourite-list">
           <p>Ops, looks like you don't have any favorite beers yet!</p>
@@ -40,6 +40,22 @@ export const BeerList = () => {
     }
   };
 
+  const renderShowMoreButton = () =>
+    !showFavouritePage &&
+    !error &&
+    !isEmpty && (
+      <button
+        onClick={(e) => {
+          e.preventDefault();
+          getProducts();
+        }}
+        disabled={isLoading || error}
+        className="show-more"
+      >
+        Show more
+      </button>
+    );
+
   return (
     <>
       <Grid className="beer-list-container">
@@ -51,25 +67,11 @@ export const BeerList = () => {
         >
           {renderList()}
         </Grid>
-        {isEmpty && listToRender === listOfProducts && (
-          <EmptyResponseComponent />
-        )}
-        {error && <ErrorComponent />}
+        {isEmpty && !showFavouritePage && <EmptyResponseComponent />}
+        {error && !showFavouritePage && <ErrorComponent />}
       </Grid>
-
       {isLoading && <LoadingComponent />}
-      {!showFavouritePage && !error && !isEmpty && (
-        <button
-          onClick={(e) => {
-            e.preventDefault();
-            getProducts();
-          }}
-          disabled={isLoading || error}
-          className="show-more"
-        >
-          Show more
-        </button>
-      )}
+      {renderShowMoreButton()}
     </>
   );
 };
