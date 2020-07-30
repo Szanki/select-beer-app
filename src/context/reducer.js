@@ -28,7 +28,7 @@ export const productReducer = (state, action) => {
     case "ERROR":
       return {
         ...state,
-        error: "Sorry something went wrong, try another time",
+        error: "Sorry, something went wrong, try another time",
         isLoading: false,
       };
     default:

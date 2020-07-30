@@ -1,5 +1,8 @@
-import React from "react";
+import React, { useContext } from "react";
+import { ProductContext } from "../context/productContext";
 
 export const ErrorComponent = () => {
-  return <div className="error-component">Ops, something went wrong!</div>;
+  const { error } = useContext(ProductContext);
+
+  return <div className="error-component">{error}</div>;
 };

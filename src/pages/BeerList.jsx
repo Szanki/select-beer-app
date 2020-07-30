@@ -3,6 +3,7 @@ import { ProductContext } from "../context/productContext";
 import { BeerCard } from "../components/BeerCard";
 import { LoadingComponent } from "../components/LoadingComponent";
 import { ErrorComponent } from "../components/ErrorComponent";
+import { Grid } from "@material-ui/core";
 
 export const BeerList = () => {
   const {
@@ -24,10 +25,6 @@ export const BeerList = () => {
     : listOfProducts;
 
   const renderList = () => {
-    if (error) {
-      return <ErrorComponent />;
-    }
-
     if (showFavouritePage && listOFavouriteProducts.length === 0) {
       return (
         <div className="empty-favourite-list">
@@ -43,12 +40,20 @@ export const BeerList = () => {
 
   return (
     <>
-      <div className="beer-list-container">
-        <ul className="beer-list">{renderList()}</ul>
-      </div>
+      <Grid className="beer-list-container">
+        <Grid
+          container
+          alignItems="center"
+          justify="center"
+          className="beer-list"
+        >
+          {renderList()}
+        </Grid>
+        {error && <ErrorComponent />}
+      </Grid>
 
       {isLoading && <LoadingComponent />}
-      {!showFavouritePage && (
+      {!showFavouritePage && !error && (
         <button
           onClick={(e) => {
             e.preventDefault();

@@ -1,13 +1,6 @@
 @import "./variables";
 .beer-list-container {
-  display: flex;
-  justify-content: space-around;
-  margin-bottom: 100px;
   .beer-list {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: auto;
-    justify-content: center;
     gap: 25px;
   }
 }

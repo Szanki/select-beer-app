@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import { ProductContext } from "../context/productContext";
+import { Grid } from "@material-ui/core";
 
 export const BeerCard = ({ product }) => {
   const {
@@ -13,7 +14,7 @@ export const BeerCard = ({ product }) => {
   );
 
   return (
-    <li className="product-card">
+    <Grid item xs={12} md={5} lg={4} xl={3} sm={5} className="product-card">
       <img
         className="product-card-image"
         src={product.image_url}
@@ -41,6 +42,6 @@ export const BeerCard = ({ product }) => {
           </button>
         )}
       </div>
-    </li>
+    </Grid>
   );
 };
