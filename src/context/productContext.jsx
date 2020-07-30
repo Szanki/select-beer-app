@@ -10,15 +10,21 @@ const initialState = {
     ? JSON.parse(localStorage.getItem("listOFavouriteProducts"))
     : [],
   isLoading: false,
+  error: "",
 };
 
 export const ProductContext = createContext(initialState);
 
 export const ProductContextProvider = ({ children }) => {
   const [showFavouritePage, setFavouritePage] = useState(false);
+  const [pageCounter, setPageCounter] = useState(
+    localStorage.getItem("pageCounter")
+      ? JSON.parse(localStorage.getItem("pageCounter"))
+      : 1
+  );
 
   const [
-    { isLoading, listOfProducts, listOFavouriteProducts },
+    { isLoading, listOfProducts, listOFavouriteProducts, error },
     dispatch,
   ] = useReducer(productReducer, initialState);
 
@@ -28,12 +34,20 @@ export const ProductContextProvider = ({ children }) => {
       "listOFavouriteProducts",
       JSON.stringify(listOFavouriteProducts)
     );
-  }, [listOfProducts, listOFavouriteProducts]);
+    localStorage.setItem("pageCounter", JSON.stringify(pageCounter));
+  }, [listOfProducts, listOFavouriteProducts, pageCounter]);
 
   const getProducts = async () => {
-    dispatch({ type: "IS_LOADING" });
-    const data = await (await fetch(baseApiUrl)).json();
-    dispatch({ type: "FETCH_PRODUCTS", payload: data });
+    const urlParams = `${baseApiUrl}beers?page=${pageCounter}&per_page=2`;
+
+    try {
+      dispatch({ type: "IS_LOADING" });
+      const data = await (await fetch(urlParams)).json();
+      dispatch({ type: "FETCH_PRODUCTS", payload: data });
+      data.length > 1 && setPageCounter(pageCounter + 1);
+    } catch {
+      dispatch({ type: "ERROR", payload: error });
+    }
   };
 
   const addProductToFavourite = (e, product) => {
@@ -66,6 +80,8 @@ export const ProductContextProvider = ({ children }) => {
         showFavouritePage,
         setShowFavouritePage,
         isLoading,
+        pageCounter,
+        error,
       }}
     >
       {children}

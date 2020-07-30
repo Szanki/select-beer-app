@@ -5,6 +5,7 @@ export const productReducer = (state, action) => {
         ...state,
         listOfProducts: [...state.listOfProducts, ...action.payload],
         isLoading: false,
+        error: "",
       };
     case "ADD_FAVOURITE":
       return {
