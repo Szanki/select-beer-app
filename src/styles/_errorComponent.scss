@@ -1,0 +1,6 @@
+.error-component {
+  font-size: map-get($font-size, big);
+  font-weight: map-get($font-weight, bold);
+  margin: 20px;
+  padding: 30px;
+}
