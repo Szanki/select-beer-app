@@ -10,10 +10,11 @@ export const BeerList = () => {
     showFavouritePage,
     listOFavouriteProducts,
     listOfProducts,
+    pageCounter,
   } = useContext(ProductContext);
 
   useEffect(() => {
-    listOfProducts.length === 0 && getProducts();
+    pageCounter === 1 && getProducts();
   }, []);
 
   const listToRender = showFavouritePage
@@ -36,7 +37,14 @@ export const BeerList = () => {
         <ul className="beer-list">{renderList()}</ul>
       </div>
       {!showFavouritePage && (
-        <button disabled={isLoading} className="show-more">
+        <button
+          onClick={(e) => {
+            e.preventDefault();
+            getProducts();
+          }}
+          disabled={isLoading}
+          className="show-more"
+        >
           Show more
         </button>
       )}
