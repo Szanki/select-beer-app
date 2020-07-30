@@ -81,6 +81,7 @@ export const ProductContextProvider = ({ children }) => {
         setShowFavouritePage,
         isLoading,
         pageCounter,
+        error,
       }}
     >
       {children}
