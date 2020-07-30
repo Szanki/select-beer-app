@@ -31,6 +31,11 @@ export const productReducer = (state, action) => {
         error: "Sorry, something went wrong, try another time",
         isLoading: false,
       };
+    case "IS_EMPTY":
+      return {
+        ...state,
+        isEmpty: true,
+      };
     default:
       return state;
   }

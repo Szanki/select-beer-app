@@ -11,6 +11,9 @@ const initialState = {
     : [],
   isLoading: false,
   error: "",
+  isEmpty: localStorage.getItem("isEmpty")
+    ? JSON.parse(localStorage.getItem("isEmpty"))
+    : false,
 };
 
 export const ProductContext = createContext(initialState);
@@ -24,7 +27,7 @@ export const ProductContextProvider = ({ children }) => {
   );
 
   const [
-    { isLoading, listOfProducts, listOFavouriteProducts, error },
+    { isLoading, listOfProducts, listOFavouriteProducts, error, isEmpty },
     dispatch,
   ] = useReducer(productReducer, initialState);
 
@@ -35,14 +38,16 @@ export const ProductContextProvider = ({ children }) => {
       JSON.stringify(listOFavouriteProducts)
     );
     localStorage.setItem("pageCounter", JSON.stringify(pageCounter));
+    localStorage.setItem("isEmpty", JSON.stringify(isEmpty));
   }, [listOfProducts, listOFavouriteProducts, pageCounter]);
 
   const getProducts = async () => {
-    const urlParams = `${baseApiUrl}beers?page=${pageCounter}&per_page=2`;
+    const urlParams = `${baseApiUrl}beers?page=${pageCounter}&per_page=80`;
 
     try {
       dispatch({ type: "IS_LOADING" });
       const data = await (await fetch(urlParams)).json();
+      data.length === 0 && dispatch({ type: "IS_EMPTY" });
       dispatch({ type: "FETCH_PRODUCTS", payload: data });
       data.length > 1 && setPageCounter(pageCounter + 1);
     } catch {
@@ -82,6 +87,7 @@ export const ProductContextProvider = ({ children }) => {
         isLoading,
         pageCounter,
         error,
+        isEmpty,
       }}
     >
       {children}

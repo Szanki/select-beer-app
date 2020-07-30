@@ -4,6 +4,7 @@ import { BeerCard } from "../components/BeerCard";
 import { LoadingComponent } from "../components/LoadingComponent";
 import { ErrorComponent } from "../components/ErrorComponent";
 import { Grid } from "@material-ui/core";
+import { EmptyResponseComponent } from "../components/EmptyResponseComponent";
 
 export const BeerList = () => {
   const {
@@ -14,6 +15,7 @@ export const BeerList = () => {
     listOfProducts,
     pageCounter,
     error,
+    isEmpty,
   } = useContext(ProductContext);
 
   useEffect(() => {
@@ -25,7 +27,7 @@ export const BeerList = () => {
     : listOfProducts;
 
   const renderList = () => {
-    if (showFavouritePage && listOFavouriteProducts.length === 0) {
+    if (showFavouritePage && listOFavouriteProducts.length === 0 && !error) {
       return (
         <div className="empty-favourite-list">
           <p>Ops, looks like you don't have any favorite beers yet!</p>
@@ -49,11 +51,14 @@ export const BeerList = () => {
         >
           {renderList()}
         </Grid>
+        {isEmpty && listToRender === listOfProducts && (
+          <EmptyResponseComponent />
+        )}
         {error && <ErrorComponent />}
       </Grid>
 
       {isLoading && <LoadingComponent />}
-      {!showFavouritePage && !error && (
+      {!showFavouritePage && !error && !isEmpty && (
         <button
           onClick={(e) => {
             e.preventDefault();
